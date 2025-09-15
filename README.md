@@ -1,64 +1,63 @@
-🏥 Sistema de Agendamento - Clínica Médica
+# 🏥 Sistema de Agendamento - Clínica Médica
+
 Sistema completo de agendamento de consultas médicas desenvolvido com Vue.js (frontend) e Node.js (backend), incluindo autenticação JWT, integração com APIs externas e painel administrativo.
 
-📋 Funcionalidades:
+# 📋 Funcionalidades:
     
-    🔐 Autenticação e Segurança:
+## 🔐 Autenticação e Segurança:
 
-        Login e cadastro seguro com JWT
-        Middleware de proteção de rotas
-        Diferentes níveis de acesso (paciente/secretário)
-        Senhas criptografadas com bcryptjs
+    Login e cadastro seguro com JWT
+    Middleware de proteção de rotas
+    Diferentes níveis de acesso (paciente/secretário)
+    Senhas criptografadas com bcryptjs
     
-    📅 Agendamentos:
+## 📅 Agendamentos:
 
-        Agendamento de consultas com verificação de disponibilidade
-        Visualização de horários livres em tempo real
-        Status de agendamentos (agendado, confirmado, cancelado)
-        Observações e detalhes da consulta
+    Agendamento de consultas com verificação de disponibilidade
+    Visualização de horários livres em tempo real
+    Status de agendamentos (agendado, confirmado, cancelado)
+    Observações e detalhes da consulta
     
-    🌍 Integrações com APIs Externas:
+## 🌍 Integrações com APIs Externas:
 
-        ViaCEP: Preenchimento automático de endereço
-        OpenWeatherMap: Previsão do tempo para o dia da consulta
-        Alertas de chuva para os pacientes
+    ViaCEP: Preenchimento automático de endereço
+    OpenWeatherMap: Previsão do tempo para o dia da consulta
+    Alertas de chuva para os pacientes
     
-    👨‍💼 Painel Administrativo:
+## 👨‍💼 Painel Administrativo:
 
-        Gerenciamento de todos os agendamentos
-        Estatísticas em tempo real
-        Alteração de status dos agendamentos
-        Exportação de dados em CSV
+    Gerenciamento de todos os agendamentos
+    Estatísticas em tempo real
+    Alteração de status dos agendamentos
+    Exportação de dados em CSV
 
-🛠 Tecnologias Utilizadas:
+# 🛠 Tecnologias Utilizadas:
 
-    Backend:
+### Backend:
 
-        Node.js - Runtime JavaScript
-        Express.js - Framework web
-        PostgreSQL - Banco de dados
-        JWT - Autenticação
-        Bcrypt - Criptografia de senhas
-        Axios - Requisições HTTP
+    Node.js - Runtime JavaScript
+    Express.js - Framework web
+    PostgreSQL - Banco de dados
+    JWT - Autenticação
+    Bcrypt - Criptografia de senhas
+    Axios - Requisições HTTP
 
-    Frontend:
+### Frontend:
 
-        Vue.js 3 - Framework JavaScript reativo
-        Axios - Cliente HTTP
-        CSS3 - Estilização responsiva
-        Font Awesome - Ícones
+    Vue.js 3 - Framework JavaScript reativo
+    Axios - Cliente HTTP
+    CSS3 - Estilização responsiva
+    Font Awesome - Ícones
 
-🚀 Instalação e Configuração
+# 🚀 Instalação e Configuração
 
-    Pré-requisitos:
+### Pré-requisitos:
 
-        Node.js 16+ instalado
-        PostgreSQL instalado e rodando
-        Conta na OpenWeatherMap (API gratuita)
+    Node.js 16+ instalado
+    PostgreSQL instalado e rodando
+    Conta na OpenWeatherMap (API gratuita)
 
 # 1. Configuração do Banco de Dados
-
-bash
 
     # Conectar ao PostgreSQL
     psql -U postgres
@@ -70,8 +69,6 @@ bash
     \i init.sql
 
 # 2. Configuração do Backend
-
-bash
 
     # Navegar para o diretório backend
         cd backend
@@ -96,7 +93,7 @@ bash
     Adicione no arquivo .env
 
 # 4. Iniciar o Backend
-bash
+
     # Ambiente de desenvolvimento
         npm run dev
 
@@ -106,7 +103,6 @@ bash
 
 # 5. Configuração do Frontend
 
-bash
     # Navegar para o diretório frontend
         cd frontend
 
@@ -116,21 +112,23 @@ bash
     # Ou simplesmente abrir o index.html no navegador
 
 # Para desenvolvimento com live-server:
-
-bash
+    
     npm run dev
     O frontend estará disponível em http://localhost:8080
 
-# 👤 Usuários de Teste
+## 👤 Usuários de Teste
     Secretário (Admin)
     Email: admin@clinica.com
     Senha: admin123
-    Paciente
+
+## Paciente
     Email: joao@email.com
     Senha: teste123
 
 # 📱 Como Usar
-    Para Pacientes:
+
+## Para Pacientes:
+
     Cadastro/Login: Crie sua conta ou faça login
     Novo Agendamento:
     Selecione data e horário disponível
@@ -139,7 +137,8 @@ bash
     Visualizar Agendamentos: Veja suas consultas e previsão do tempo
     Acompanhar Status: Receba atualizações do status da consulta
     
-    Para Secretários:
+## Para Secretários:
+
     Login: Use as credenciais de secretário
     Painel Admin: Acesse estatísticas e controles
     Gerenciar Agendamentos:
@@ -165,24 +164,22 @@ bash
 
 # Deploy do Backend (Heroku)
 
-## bash
-
-    # Instalar Heroku CLI
+## Instalar Heroku CLI
     
-    # Criar app no Heroku
-        heroku create clinica-backend
+## Criar app no Heroku
+    heroku create clinica-backend
 
-    # Configurar variáveis de ambiente
-        heroku config:set DATABASE_URL=postgresql://...
-        heroku config:set JWT_SECRET=...
-        heroku config:set OPENWEATHER_API_KEY=...
+## Configurar variáveis de ambiente
+    heroku config:set DATABASE_URL=postgresql://...
+    heroku config:set JWT_SECRET=...
+    heroku config:set OPENWEATHER_API_KEY=...
 
-    # Deploy
-        git push heroku main
-        Deploy do Frontend (Netlify/Vercel)
-        Faça upload dos arquivos frontend
-        Configure a URL da API no código
-        Deploy automático
+## Deploy
+    git push heroku main
+    Deploy do Frontend (Netlify/Vercel)
+    Faça upload dos arquivos frontend
+    Configure a URL da API no código
+    Deploy automático
 
 # 🔒 Segurança
 
@@ -192,7 +189,7 @@ bash
     Proteção contra SQL injection
     CORS configurado adequadamente
 
-# 📊 APIs Utilizadas
+# 📊 APIs Utilizadas:
 
 ## Endpoints Principais
 
@@ -209,12 +206,9 @@ bash
     ViaCEP: https://viacep.com.br/ws/{cep}/json/
     OpenWeatherMap: https://api.openweathermap.org/data/2.5/forecast
 
-# 🐛 Solução de Problemas
+# 🐛 Solução de Problemas:
 
 ## Backend não conecta ao banco
-
-bash
-
     # Verificar se PostgreSQL está rodando
     sudo service postgresql start
 
@@ -233,7 +227,8 @@ bash
     Verifique se a data selecionada não é no passado
     Confirme se o token JWT está válido
 
-# 📈 Próximas Funcionalidades
+# 📈 Próximas Funcionalidades:
+
      Notificações por email
      Sistema de lembretes SMS
      Integração com Google Calendar
@@ -255,19 +250,18 @@ bash
 
 # 👨‍💻 Desenvolvimento
     
-##Scripts Disponíveis:
-###Backend:
+## Scripts Disponíveis:
 
-    bash
-        npm start        # Produção
-        npm run dev      # Desenvolvimento com nodemon
+### Backend:
+
+    npm start        # Produção
+    npm run dev      # Desenvolvimento com nodemon
 
 ### Frontend:
     
-    bash
-        npm run dev      # Servidor de desenvolvimento
-        npm run build    # Build para produção
-        npm start        # Servidor de produção
+    npm run dev      # Servidor de desenvolvimento
+    npm run build    # Build para produção
+    npm start        # Servidor de produção
 
 ### Estrutura de Dados:
     Usuário:
@@ -300,7 +294,6 @@ bash
 # 🔍 Testes
 
 ## Testar Backend
-    bash
     # Testar endpoints com curl
     curl -X POST http://localhost:3000/api/login \
       -H "Content-Type: application/json" \
@@ -367,6 +360,7 @@ bash
      Tratamento de erros implementado
      Interface responsiva e moderna
      Validações de segurança aplicadas
+
 
 
 
