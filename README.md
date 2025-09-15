@@ -310,11 +310,14 @@ bash
     Abra o navegador em http://localhost:8080
 
 # 📞 Suporte
-    Para suporte e dúvidas: Instagram: @ocaique.adm
+
+Para suporte e dúvidas: Instagram: @ocaique.adm
 
 📧 Email: morekaik27@gmail.com
+
 💬 Issues no GitHub
-🏆 Créditos
+
+🏆 Créditos:
 Desenvolvido como projeto acadêmico seguindo as melhores práticas de desenvolvimento web moderno com auxilio de IA.
 
 Referências Bibliográficas:
@@ -323,46 +326,47 @@ ALVES, W. P. Projetos de sistemas web: conceitos, estruturas, criação de banco
 FREITAS, P. H. C.; BIRNFELD, K.; SARAIVA, M. O. Programação back end III. Porto Alegre: Grupo A, 2021.
 OLIVEIRA, C. L. V.; ZANETTI, H. A. P. Javascript descomplicado: programação para web, iot e dispositivos móveis. São Paulo: Saraiva, 2020.
 
-🚀 Deploy Rápido
-# Opção 1: Local
-    bash
+# 🚀 Deploy Rápido
+## Opção 1: Local
+bash
     
-# Backend
-cd backend && npm install && npm run dev
+### Backend
+    cd backend && npm install && npm run dev
 
-# Frontend (nova aba)
-cd frontend && open index.html
+### Frontend (nova aba)
+    cd frontend && open index.html
 
-# Opção 2: Docker (Opcional)
-dockerfile
-Dockerfile backend
-FROM node:16
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-EXPOSE 3000
-CMD ["npm", "start"]
+## Opção 2: Docker (Opcional)
+    dockerfile
+    Dockerfile backend
+    FROM node:16
+    WORKDIR /app
+    COPY package*.json ./
+    RUN npm install
+    COPY . .
+    EXPOSE 3000
+    CMD ["npm", "start"]
 
-# Opção 3: Heroku + Netlify
-Backend: Deploy no Heroku com PostgreSQL addon
-Frontend: Deploy no Netlify com build automático
-Banco: Usar Heroku Postgres (gratuito até 10k rows)
-⚡ Sistema pronto para produção com todas as funcionalidades implementadas!
+### Opção 3: Heroku + Netlify
+    Backend: Deploy no Heroku com PostgreSQL addon
+    Frontend: Deploy no Netlify com build automático
+    Banco: Usar Heroku Postgres (gratuito até 10k rows)
+    ⚡ Sistema pronto para produção com todas as funcionalidades implementadas!
 
-Checklist de Entrega ✅
- Backend Node.js + Express completo
- Frontend Vue.js responsivo
- Autenticação JWT segura
- Integração ViaCEP para endereços
- Integração OpenWeatherMap para clima
- Painel administrativo funcional
- Banco PostgreSQL estruturado
- Documentação completa
- Usuários de teste configurados
- Scripts de deploy prontos
- Tratamento de erros implementado
- Interface responsiva e moderna
- Validações de segurança aplicadas
+# Checklist de Entrega ✅
+     Backend Node.js + Express completo
+     Frontend Vue.js responsivo
+     Autenticação JWT segura
+     Integração ViaCEP para endereços
+     Integração OpenWeatherMap para clima
+     Painel administrativo funcional
+     Banco PostgreSQL estruturado
+     Documentação completa
+     Usuários de teste configurados
+     Scripts de deploy prontos
+     Tratamento de erros implementado
+     Interface responsiva e moderna
+     Validações de segurança aplicadas
+
 
 
