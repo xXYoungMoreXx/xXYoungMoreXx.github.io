@@ -1,57 +1,83 @@
 🏥 Sistema de Agendamento - Clínica Médica
 Sistema completo de agendamento de consultas médicas desenvolvido com Vue.js (frontend) e Node.js (backend), incluindo autenticação JWT, integração com APIs externas e painel administrativo.
 
-📋 Funcionalidades
-    🔐 Autenticação e Segurança
+📋 Funcionalidades:
+    
+    🔐 Autenticação e Segurança:
+
         Login e cadastro seguro com JWT
         Middleware de proteção de rotas
         Diferentes níveis de acesso (paciente/secretário)
         Senhas criptografadas com bcryptjs
-    📅 Agendamentos
+    
+    📅 Agendamentos:
+
         Agendamento de consultas com verificação de disponibilidade
         Visualização de horários livres em tempo real
         Status de agendamentos (agendado, confirmado, cancelado)
         Observações e detalhes da consulta
-    🌍 Integrações com APIs Externas
+    
+    🌍 Integrações com APIs Externas:
+
         ViaCEP: Preenchimento automático de endereço
         OpenWeatherMap: Previsão do tempo para o dia da consulta
         Alertas de chuva para os pacientes
-    👨‍💼 Painel Administrativo
+    
+    👨‍💼 Painel Administrativo:
+
         Gerenciamento de todos os agendamentos
         Estatísticas em tempo real
         Alteração de status dos agendamentos
         Exportação de dados em CSV
-🛠 Tecnologias Utilizadas
-    Backend
+
+🛠 Tecnologias Utilizadas:
+
+    Backend:
+
         Node.js - Runtime JavaScript
         Express.js - Framework web
         PostgreSQL - Banco de dados
         JWT - Autenticação
         Bcrypt - Criptografia de senhas
         Axios - Requisições HTTP
-    Frontend
+
+    Frontend:
+
         Vue.js 3 - Framework JavaScript reativo
         Axios - Cliente HTTP
         CSS3 - Estilização responsiva
         Font Awesome - Ícones
+
 🚀 Instalação e Configuração
-    Pré-requisitos
+
+    Pré-requisitos:
+
         Node.js 16+ instalado
         PostgreSQL instalado e rodando
         Conta na OpenWeatherMap (API gratuita)
-1. Configuração do Banco de Dados
+
+# 1. Configuração do Banco de Dados
+
     bash
+
     # Conectar ao PostgreSQL
+
     psql -U postgres
 
     # Criar banco de dados
+
     CREATE DATABASE clinica_db;
 
     # Executar script de inicialização
+
     \i init.sql
-2. Configuração do Backend
+
+# 2. Configuração do Backend
+
     bash
+
     # Navegar para o diretório backend
+
     cd backend
 
     # Instalar dependências
@@ -66,12 +92,12 @@ Sistema completo de agendamento de consultas médicas desenvolvido com Vue.js (f
     OPENWEATHER_API_KEY=sua_api_key_openweather_aqui
     PORT=3000
     NODE_ENV=development
-3. Obter API Key do OpenWeatherMap
+# 3. Obter API Key do OpenWeatherMap
     Acesse OpenWeatherMap
     Crie uma conta gratuita
     Gere sua API key
     Adicione no arquivo .env
-4. Iniciar o Backend
+# 4. Iniciar o Backend
     bash
     # Ambiente de desenvolvimento
     npm run dev
@@ -80,7 +106,7 @@ Sistema completo de agendamento de consultas médicas desenvolvido com Vue.js (f
     npm start
     O servidor estará rodando em http://localhost:3000
 
-5. Configuração do Frontend
+# 5. Configuração do Frontend
     bash
     # Navegar para o diretório frontend
     cd frontend
@@ -211,9 +237,10 @@ npm run dev      # Desenvolvimento com nodemon
 Frontend:
 
 bash
-npm run dev      # Servidor de desenvolvimento
-npm run build    # Build para produção
-npm start        # Servidor de produção
+    npm run dev      # Servidor de desenvolvimento
+    npm run build    # Build para produção
+    npm start        # Servidor de produção
+
 Estrutura de Dados
 Usuário:
 
@@ -241,19 +268,21 @@ javascript
   status: 'agendado' | 'confirmado' | 'cancelado',
   previsao_clima: string
 }
+
 🔍 Testes
+
 Testar Backend
-bash
-# Testar endpoints com curl
-curl -X POST http://localhost:3000/api/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"admin@clinica.com","senha":"admin123"}'
+    bash
+    # Testar endpoints com curl
+    curl -X POST http://localhost:3000/api/login \
+      -H "Content-Type: application/json" \
+      -d '{"email":"admin@clinica.com","senha":"admin123"}'
+
 Testar Frontend
-Abra o navegador em http://localhost:8080
-Teste login com usuários de exemplo
-Verifique responsividade em dispositivos móveis
+    Abra o navegador em http://localhost:8080
+
 📞 Suporte
-Para suporte e dúvidas:
+Para suporte e dúvidas: Instagram: @ocaique.adm / Gmail: morekaik27@gmail.com
 
 📧 Email: suporte@clinica.com
 💬 Issues no GitHub
@@ -261,21 +290,25 @@ Para suporte e dúvidas:
 🏆 Créditos
 Desenvolvido como projeto acadêmico seguindo as melhores práticas de desenvolvimento web moderno.
 
-Referências Bibliográficas
+Referências Bibliográficas:
+
 ALVES, W. P. Projetos de sistemas web: conceitos, estruturas, criação de banco de dados e ferramentas de desenvolvimento. São Paulo: Saraiva, 2015.
 FREITAS, P. H. C.; BIRNFELD, K.; SARAIVA, M. O. Programação back end III. Porto Alegre: Grupo A, 2021.
 OLIVEIRA, C. L. V.; ZANETTI, H. A. P. Javascript descomplicado: programação para web, iot e dispositivos móveis. São Paulo: Saraiva, 2020.
+
 🚀 Deploy Rápido
-Opção 1: Local
-bash
+# Opção 1: Local
+    bash
+    
 # Backend
 cd backend && npm install && npm run dev
 
 # Frontend (nova aba)
 cd frontend && open index.html
-Opção 2: Docker (Opcional)
+
+# Opção 2: Docker (Opcional)
 dockerfile
-# Dockerfile backend
+Dockerfile backend
 FROM node:16
 WORKDIR /app
 COPY package*.json ./
@@ -283,7 +316,8 @@ RUN npm install
 COPY . .
 EXPOSE 3000
 CMD ["npm", "start"]
-Opção 3: Heroku + Netlify
+
+# Opção 3: Heroku + Netlify
 Backend: Deploy no Heroku com PostgreSQL addon
 Frontend: Deploy no Netlify com build automático
 Banco: Usar Heroku Postgres (gratuito até 10k rows)
@@ -303,3 +337,4 @@ Checklist de Entrega ✅
  Tratamento de erros implementado
  Interface responsiva e moderna
  Validações de segurança aplicadas
+
