@@ -313,15 +313,14 @@ Para suporte e dúvidas: Instagram: @ocaique.adm
 🏆 Créditos:
 Desenvolvido como projeto acadêmico seguindo as melhores práticas de desenvolvimento web moderno com auxilio de IA.
 
-Referências Bibliográficas:
+# Referências Bibliográficas:
 
-ALVES, W. P. Projetos de sistemas web: conceitos, estruturas, criação de banco de dados e ferramentas de desenvolvimento. São Paulo: Saraiva, 2015.
-FREITAS, P. H. C.; BIRNFELD, K.; SARAIVA, M. O. Programação back end III. Porto Alegre: Grupo A, 2021.
-OLIVEIRA, C. L. V.; ZANETTI, H. A. P. Javascript descomplicado: programação para web, iot e dispositivos móveis. São Paulo: Saraiva, 2020.
+    ALVES, W. P. Projetos de sistemas web: conceitos, estruturas, criação de banco de dados e ferramentas de desenvolvimento. São Paulo: Saraiva, 2015.
+    FREITAS, P. H. C.; BIRNFELD, K.; SARAIVA, M. O. Programação back end III. Porto Alegre: Grupo A, 2021.
+    OLIVEIRA, C. L. V.; ZANETTI, H. A. P. Javascript descomplicado: programação para web, iot e dispositivos móveis. São Paulo: Saraiva, 2020.
 
 # 🚀 Deploy Rápido
 ## Opção 1: Local
-bash
     
 ### Backend
     cd backend && npm install && npm run dev
@@ -360,6 +359,7 @@ bash
      Tratamento de erros implementado
      Interface responsiva e moderna
      Validações de segurança aplicadas
+
 
 
 
