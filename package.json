@@ -1,0 +1,27 @@
+{
+    "name": "clinica-frontend",
+    "version": "1.0.0",
+    "description": "Frontend para sistema de agendamento de consultas médicas",
+    "main": "index.html",
+    "scripts": {
+      "dev": "live-server --port=8080 --host=localhost --entry-file=index.html",
+      "build": "echo 'Build completed - arquivos prontos para produção'",
+      "start": "live-server --port=8080 --host=0.0.0.0 --entry-file=index.html"
+    },
+    "dependencies": {
+      "vue": "^3.3.4",
+      "axios": "^1.6.0"
+    },
+    "devDependencies": {
+      "live-server": "^1.2.2"
+    },
+    "keywords": [
+      "vue",
+      "frontend",
+      "spa",
+      "agendamento",
+      "clinica"
+    ],
+    "author": "Sistema de Clínica",
+    "license": "MIT"
+  }

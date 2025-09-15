@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste API</title>
+</head>
+<body>
+    <button onclick="testarLogin()">Testar Login</button>
+    <div id="resultado"></div>
+
+    <script>
+    async function testarLogin() {
+        try {
+            const response = await fetch('http://localhost:3000/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: 'admin@clinica.com',
+                    senha: 'admin123'
+                })
+            });
+
+            const data = await response.json();
+            
+            document.getElementById('resultado').innerHTML = 
+                `<h3>Status: ${response.status}</h3>
+                 <pre>${JSON.stringify(data, null, 2)}</pre>`;
+                 
+        } catch (error) {
+            document.getElementById('resultado').innerHTML = 
+                `<h3 style="color: red">Erro: ${error.message}</h3>`;
+        }
+    }
+    </script>
+</body>
+</html>

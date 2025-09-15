@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Agendamento - Clínica Médica</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      margin: 20px 0;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      color: #667eea;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: #666;
+      font-size: 1.1em;
+    }
+
+    .nav-tabs {
+      display: flex;
+      border-bottom: 2px solid #e1e5e9;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .nav-tab {
+      padding: 15px 25px;
+      background: none;
+      border: none;
+      color: #666;
+      font-size: 16px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+      margin-right: 10px;
+    }
+
+    .nav-tab:hover {
+      color: #667eea;
+    }
+
+    .nav-tab.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+      font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #555;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .btn {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-success {
+      background: #28a745;
+      color: white;
+    }
+
+    .btn-warning {
+      background: #ffc107;
+      color: #212529;
+    }
+
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 14px;
+    }
+
+    .alert {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .alert-success {
+      background: #d1edff;
+      color: #0c5460;
+      border: 1px solid #b8daff;
+    }
+
+    .alert-error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .alert-warning {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeaa7;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .table th,
+    .table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #e1e5e9;
+    }
+
+    .table th {
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #555;
+    }
+
+    .table tr:hover {
+      background: #f8f9fa;
+    }
+
+    .user-info {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .logout-btn {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .logout-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .status-badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-agendado {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+
+    .status-confirmado {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status-cancelado {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .weather-info {
+      background: #e3f2fd;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    .loading i {
+      font-size: 2em;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+      
+      .card {
+        padding: 20px;
+        margin: 10px 0;
+      }
+      
+      .nav-tabs {
+        flex-direction: column;
+      }
+      
+      .nav-tab {
+        margin-right: 0;
+        margin-bottom: 5px;
+      }
+      
+      .user-info {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+      
+      .table {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1><i class="fas fa-stethoscope"></i> Clínica Médica</h1>
+        <p>Sistema de Agendamento de Consultas</p>
+      </div>
+
+      <!-- User Info (quando logado) -->
+      <div v-if="user" class="user-info">
+        <div>
+          <strong><i class="fas fa-user"></i> {{ user.nome }}</strong>
+          <span v-if="user.tipo === 'secretario'"> - Secretário(a)</span>
+          <span v-else> - Paciente</span>
+        </div>
+        <button @click="logout" class="btn logout-btn">
+          <i class="fas fa-sign-out-alt"></i> Sair
+        </button>
+      </div>
+
+      <!-- Tabs de Navegação (quando logado) -->
+      <div v-if="user" class="nav-tabs">
+        <button 
+          @click="activeTab = 'agendamentos'"
+          :class="['nav-tab', { active: activeTab === 'agendamentos' }]">
+          <i class="fas fa-calendar"></i> Meus Agendamentos
+        </button>
+        <button 
+          @click="activeTab = 'novo'"
+          :class="['nav-tab', { active: activeTab === 'novo' }]">
+          <i class="fas fa-plus"></i> Novo Agendamento
+        </button>
+        <button 
+          v-if="user.tipo === 'secretario'"
+          @click="activeTab = 'admin'"
+          :class="['nav-tab', { active: activeTab === 'admin' }]">
+          <i class="fas fa-cog"></i> Painel Admin
+        </button>
+      </div>
+
+      <!-- Alerts -->
+      <div v-if="alert.message" :class="['alert', alert.type]">
+        {{ alert.message }}
+      </div>
+
+      <!-- Login/Register (quando não logado) -->
+      <div v-if="!user" class="card">
+        <div class="nav-tabs">
+          <button 
+            @click="authMode = 'login'"
+            :class="['nav-tab', { active: authMode === 'login' }]">
+            <i class="fas fa-sign-in-alt"></i> Login
+          </button>
+          <button 
+            @click="authMode = 'register'"
+            :class="['nav-tab', { active: authMode === 'register' }]">
+            <i class="fas fa-user-plus"></i> Cadastro
+          </button>
+        </div>
+
+        <!-- Login Form -->
+        <form v-if="authMode === 'login'" @submit.prevent="login">
+          <div class="form-group">
+            <label>Email:</label>
+            <input v-model="loginForm.email" type="email" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Senha:</label>
+            <input v-model="loginForm.password" type="password" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-primary" :disabled="loading">
+            <i v-if="loading" class="fas fa-spinner fa-spin"></i>
+            <i v-else class="fas fa-sign-in-alt"></i>
+            {{ loading ? 'Entrando...' : 'Entrar' }}
+          </button>
+        </form>
+
+        <!-- Register Form -->
+        <form v-if="authMode === 'register'" @submit.prevent="register">
+          <div class="form-group">
+            <label>Nome Completo:</label>
+            <input v-model="registerForm.nome" type="text" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Email:</label>
+            <input v-model="registerForm.email" type="email" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Senha:</label>
+            <input v-model="registerForm.senha" type="password" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Telefone:</label>
+            <input v-model="registerForm.telefone" type="tel" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>CEP:</label>
+            <input v-model="registerForm.cep" @blur="buscarEndereco" type="text" class="form-control" maxlength="9">
+            <small v-if="endereco" style="color: #28a745; margin-top: 5px; display: block;">
+              📍 {{ endereco }}
+            </small>
+          </div>
+          <div class="form-group">
+            <label>Tipo de Usuário:</label>
+            <select v-model="registerForm.tipo" class="form-control">
+              <option value="paciente">Paciente</option>
+              <option value="secretario">Secretário</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary" :disabled="loading">
+            <i v-if="loading" class="fas fa-spinner fa-spin"></i>
+            <i v-else class="fas fa-user-plus"></i>
+            {{ loading ? 'Cadastrando...' : 'Cadastrar' }}
+          </button>
+        </form>
+      </div>
+
+      <!-- Conteúdo Principal (quando logado) -->
+      <div v-if="user">
+        
+        <!-- Lista de Agendamentos -->
+        <div v-if="activeTab === 'agendamentos'" class="card">
+          <h2><i class="fas fa-calendar"></i> Meus Agendamentos</h2>
+          <div v-if="loadingAgendamentos" class="loading">
+            <i class="fas fa-spinner"></i><br>
+            Carregando agendamentos...
+          </div>
+          <div v-else-if="agendamentos.length === 0" style="text-align: center; padding: 40px; color: #666;">
+            <i class="fas fa-calendar-times" style="font-size: 3em; margin-bottom: 20px;"></i>
+            <h3>Nenhum agendamento encontrado</h3>
+            <p>Clique em "Novo Agendamento" para agendar sua primeira consulta.</p>
+          </div>
+          <div v-else>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th v-if="user.tipo === 'secretario'">Paciente</th>
+                  <th>Data</th>
+                  <th>Horário</th>
+                  <th>Especialidade</th>
+                  <th>Médico</th>
+                  <th>Status</th>
+                  <th v-if="user.tipo === 'secretario'">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="agendamento in agendamentos" :key="agendamento.id">
+                  <td v-if="user.tipo === 'secretario'">
+                    {{ agendamento.paciente_nome }}
+                    <br><small style="color: #666;">{{ agendamento.paciente_telefone }}</small>
+                  </td>
+                  <td>{{ formatDate(agendamento.data_consulta) }}</td>
+                  <td>{{ agendamento.hora_consulta }}</td>
+                  <td>{{ agendamento.especialidade }}</td>
+                  <td>{{ agendamento.medico }}</td>
+                  <td>
+                    <span :class="['status-badge', 'status-' + agendamento.status]">
+                      {{ agendamento.status }}
+                    </span>
+                    <div v-if="agendamento.previsao_clima" class="weather-info">
+                      {{ agendamento.previsao_clima }}
+                    </div>
+                  </td>
+                  <td v-if="user.tipo === 'secretario'">
+                    <select @change="updateStatus(agendamento.id, $event.target.value)" 
+                            :value="agendamento.status" 
+                            class="form-control" 
+                            style="width: auto; display: inline-block; padding: 4px 8px; font-size: 12px;">
+                      <option value="agendado">Agendado</option>
+                      <option value="confirmado">Confirmado</option>
+                      <option value="cancelado">Cancelado</option>
+                    </select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Novo Agendamento -->
+        <div v-if="activeTab === 'novo'" class="card">
+          <h2><i class="fas fa-plus"></i> Novo Agendamento</h2>
+          <form @submit.prevent="criarAgendamento">
+            <div class="grid">
+              <div class="form-group">
+                <label>Data da Consulta:</label>
+                <input v-model="novoAgendamento.data_consulta" 
+                       @change="carregarHorariosDisponiveis"
+                       type="date" 
+                       class="form-control" 
+                       :min="minDate" 
+                       required>
+              </div>
+              <div class="form-group">
+                <label>Horário:</label>
+                <select v-model="novoAgendamento.hora_consulta" class="form-control" required>
+                  <option value="">Selecione um horário</option>
+                  <option v-for="horario in horariosDisponiveis" :key="horario" :value="horario">
+                    {{ horario }}
+                  </option>
+                </select>
+                <small v-if="loadingHorarios" style="color: #666;">Carregando horários...</small>
+              </div>
+            </div>
+            <div class="grid">
+              <div class="form-group">
+                <label>Especialidade:</label>
+                <select v-model="novoAgendamento.especialidade" class="form-control" required>
+                  <option value="">Selecione a especialidade</option>
+                  <option value="Clínico Geral">Clínico Geral</option>
+                  <option value="Cardiologia">Cardiologia</option>
+                  <option value="Dermatologia">Dermatologia</option>
+                  <option value="Ginecologia">Ginecologia</option>
+                  <option value="Neurologia">Neurologia</option>
+                  <option value="Ortopedia">Ortopedia</option>
+                  <option value="Pediatria">Pediatria</option>
+                  <option value="Psiquiatria">Psiquiatria</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Médico:</label>
+                <input v-model="novoAgendamento.medico" type="text" class="form-control" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Observações:</label>
+              <textarea v-model="novoAgendamento.observacoes" 
+                        class="form-control" 
+                        rows="3" 
+                        placeholder="Descreva sintomas ou informações relevantes..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" :disabled="loading">
+              <i v-if="loading" class="fas fa-spinner fa-spin"></i>
+              <i v-else class="fas fa-calendar-plus"></i>
+              {{ loading ? 'Agendando...' : 'Agendar Consulta' }}
+            </button>
+          </form>
+        </div>
+
+        <!-- Painel Admin (apenas secretários) -->
+        <div v-if="activeTab === 'admin' && user.tipo === 'secretario'" class="card">
+          <h2><i class="fas fa-cog"></i> Painel Administrativo</h2>
+          <div class="grid">
+            <div class="card" style="background: #e3f2fd; margin: 10px 0;">
+              <h3>📊 Estatísticas</h3>
+              <p><strong>Total de Agendamentos:</strong> {{ agendamentos.length }}</p>
+              <p><strong>Agendados:</strong> {{ agendamentos.filter(a => a.status === 'agendado').length }}</p>
+              <p><strong>Confirmados:</strong> {{ agendamentos.filter(a => a.status === 'confirmado').length }}</p>
+              <p><strong>Cancelados:</strong> {{ agendamentos.filter(a => a.status === 'cancelado').length }}</p>
+            </div>
+            <div class="card" style="background: #f3e5f5; margin: 10px 0;">
+              <h3>⚡ Ações Rápidas</h3>
+              <button @click="carregarAgendamentos" class="btn btn-primary btn-small" style="margin: 5px;">
+                <i class="fas fa-sync"></i> Atualizar Lista
+              </button>
+              <button @click="exportarAgendamentos" class="btn btn-success btn-small" style="margin: 5px;">
+                <i class="fas fa-download"></i> Exportar Dados
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          // Estados da aplicação
+          user: null,
+          activeTab: 'agendamentos',
+          authMode: 'login',
+          loading: false,
+          loadingAgendamentos: false,
+          loadingHorarios: false,
+          
+          // Alerts
+          alert: {
+            message: '',
+            type: ''
+          },
+
+          // Forms
+          loginForm: {
+            email: '',
+            password: ''
+          },
+          
+          registerForm: {
+            nome: '',
+            email: '',
+            senha: '',
+            telefone: '',
+            cep: '',
+            tipo: 'paciente'
+          },
+
+          novoAgendamento: {
+            data_consulta: '',
+            hora_consulta: '',
+            especialidade: '',
+            medico: '',
+            observacoes: ''
+          },
+
+          // Dados
+          agendamentos: [],
+          horariosDisponiveis: [],
+          endereco: '',
+
+          // API Base URL
+          apiUrl: 'http://localhost:3000/api'
+        }
+      },
+
+      computed: {
+        minDate() {
+          const today = new Date();
+          return today.toISOString().split('T')[0];
+        }
+      },
+
+      mounted() {
+        this.checkAuthStatus();
+      },
+
+      methods: {
+        // Verificar se usuário está logado
+        checkAuthStatus() {
+          const token = localStorage.getItem('token');
+          const userData = localStorage.getItem('user');
+          
+          if (token && userData) {
+            this.user = JSON.parse(userData);
+            this.setAuthHeaders(token);
+            this.carregarAgendamentos();
+          }
+        },
+
+        // Configurar headers de autorização
+        setAuthHeaders(token) {
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        },
+
+        // Login
+        async login() {
+          this.loading = true;
+          this.clearAlert();
+          
+          try {
+            const response = await axios.post(`${this.apiUrl}/login`, {
+              email: this.loginForm.email,
+              senha: this.loginForm.password
+            });
+
+            const { token, user } = response.data;
+            
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(user));
+            
+            this.user = user;
+            this.setAuthHeaders(token);
+            
+            this.showAlert('Login realizado com sucesso!', 'alert-success');
+            this.carregarAgendamentos();
+            
+          } catch (error) {
+            this.showAlert(error.response?.data?.error || 'Erro no login', 'alert-error');
+          }
+          
+          this.loading = false;
+        },
+
+        // Registro
+        async register() {
+          this.loading = true;
+          this.clearAlert();
+          
+          try {
+            await axios.post(`${this.apiUrl}/register`, {
+              nome: this.registerForm.nome,
+              email: this.registerForm.email,
+              senha: this.registerForm.senha,
+              telefone: this.registerForm.telefone,
+              cep: this.registerForm.cep,
+              tipo: this.registerForm.tipo
+            });
+
+            this.showAlert('Cadastro realizado com sucesso! Faça login para continuar.', 'alert-success');
+            this.authMode = 'login';
+            this.resetRegisterForm();
+            
+          } catch (error) {
+            this.showAlert(error.response?.data?.error || 'Erro no cadastro', 'alert-error');
+          }
+          
+          this.loading = false;
+        },
+
+        // Logout
+        logout() {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          this.user = null;
+          this.agendamentos = [];
+          delete axios.defaults.headers.common['Authorization'];
+          this.showAlert('Logout realizado com sucesso!', 'alert-success');
+        },
+
+        // Buscar endereço pelo CEP
+        async buscarEndereco() {
+          if (!this.registerForm.cep || this.registerForm.cep.length < 8) return;
+          
+          const cep = this.registerForm.cep.replace(/\D/g, '');
+          
+          try {
+            const response = await axios.get(`${this.apiUrl}/cep/${cep}`);
+            this.endereco = `${response.data.logradouro}, ${response.data.bairro}, ${response.data.localidade} - ${response.data.uf}`;
+          } catch (error) {
+            this.endereco = '';
+          }
+        },
+
+        // Carregar agendamentos
+        async carregarAgendamentos() {
+          this.loadingAgendamentos = true;
+          
+          try {
+            const response = await axios.get(`${this.apiUrl}/agendamentos`);
+            this.agendamentos = response.data;
+          } catch (error) {
+            this.showAlert('Erro ao carregar agendamentos', 'alert-error');
+          }
+          
+          this.loadingAgendamentos = false;
+        },
+
+        // Carregar horários disponíveis
+        async carregarHorariosDisponiveis() {
+          if (!this.novoAgendamento.data_consulta) return;
+          
+          this.loadingHorarios = true;
+          
+          try {
+            const response = await axios.get(`${this.apiUrl}/horarios-disponiveis`, {
+              params: { data: this.novoAgendamento.data_consulta }
+            });
+            this.horariosDisponiveis = response.data;
+          } catch (error) {
+            this.showAlert('Erro ao carregar horários', 'alert-error');
+          }
+          
+          this.loadingHorarios = false;
+        },
+
+        // Criar agendamento
+        async criarAgendamento() {
+          this.loading = true;
+          this.clearAlert();
+          
+          try {
+            const response = await axios.post(`${this.apiUrl}/agendamentos`, this.novoAgendamento);
+            
+            this.showAlert('Agendamento criado com sucesso!', 'alert-success');
+            this.resetNovoAgendamento();
+            this.carregarAgendamentos();
+            this.activeTab = 'agendamentos';
+            
+          } catch (error) {
+            this.showAlert(error.response?.data?.error || 'Erro ao criar agendamento', 'alert-error');
+          }
+          
+          this.loading = false;
+        },
+
+        // Atualizar status do agendamento
+        async updateStatus(id, status) {
+          try {
+            await axios.put(`${this.apiUrl}/agendamentos/${id}/status`, { status });
+            this.showAlert('Status atualizado com sucesso!', 'alert-success');
+            this.carregarAgendamentos();
+          } catch (error) {
+            this.showAlert('Erro ao atualizar status', 'alert-error');
+          }
+        },
+
+        // Exportar agendamentos (função simples)
+        exportarAgendamentos() {
+          const csv = this.agendamentos.map(a => 
+            `${a.paciente_nome},${a.data_consulta},${a.hora_consulta},${a.especialidade},${a.medico},${a.status}`
+          ).join('\n');
+          
+          const blob = new Blob([`Paciente,Data,Horário,Especialidade,Médico,Status\n${csv}`], 
+            { type: 'text/csv' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'agendamentos.csv';
+          a.click();
+          URL.revokeObjectURL(url);
+          
+          this.showAlert('Dados exportados com sucesso!', 'alert-success');
+        },
+// Adicionar função auxiliar para datas
+formatDateSafe(dateInput) {
+  if (!dateInput) return 'Data não informada';
+  
+  try {
+    let date;
+    
+    // Se for string no formato YYYY-MM-DD
+    if (typeof dateInput === 'string') {
+      const parts = dateInput.split('-');
+      if (parts.length === 3) {
+        // Criar data local sem timezone issues
+        date = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+      } else {
+        date = new Date(dateInput);
+      }
+    } else {
+      date = new Date(dateInput);
+    }
+    
+    // Verificar se data é válida
+    if (isNaN(date.getTime())) {
+      console.log('Data inválida recebida:', dateInput);
+      return 'Data inválida';
+    }
+    
+    // Retornar formato brasileiro
+    return date.toLocaleDateString('pt-BR');
+    
+  } catch (error) {
+    console.error('Erro ao processar data:', dateInput, error);
+    return 'Erro na data';
+  }
+},
+
+formatDate(dateString) {
+  return this.formatDateSafe(dateString);
+},
+    // Utilitários - função formatDate
+formatDate(dateString) {
+  if (!dateString) return 'Data inválida';
+  
+  try {
+    // Criar data sem considerar timezone
+    const date = new Date(dateString + 'T12:00:00'); // Adicionar horário meio-dia
+    
+    // Verificar se data é válida
+    if (isNaN(date.getTime())) {
+      return 'Data inválida';
+    }
+    
+    // Formatar para PT-BR
+    return date.toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  } catch (error) {
+    console.error('Erro ao formatar data:', error);
+    return 'Data inválida';
+  }
+},
+        showAlert(message, type) {
+          this.alert = { message, type };
+          setTimeout(() => this.clearAlert(), 5000);
+        },
+
+        clearAlert() {
+          this.alert = { message: '', type: '' };
+        },
+
+        resetRegisterForm() {
+          this.registerForm = {
+            nome: '',
+            email: '',
+            senha: '',
+            telefone: '',
+            cep: '',
+            tipo: 'paciente'
+          };
+          this.endereco = '';
+        },
+
+        resetNovoAgendamento() {
+          this.novoAgendamento = {
+            data_consulta: '',
+            hora_consulta: '',
+            especialidade: '',
+            medico: '',
+            observacoes: ''
+          };
+          this.horariosDisponiveis = [];
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
